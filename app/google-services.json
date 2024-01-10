@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "875377797136",
+    "firebase_url": "https://assignment-app-88715-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "assignment-app-88715",
+    "storage_bucket": "assignment-app-88715.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875377797136:android:4dc88380272a3974c10295",
+        "android_client_info": {
+          "package_name": "com.example.assignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVziyu0GkI6olT8qMu3lr2B63Hs_MDQT4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

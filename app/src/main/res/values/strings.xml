@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">YourTicker</string>
+    <string name="paragraph">
+        <![CDATA[
+            This application was made by UiTM students for their group assignment project.
+            <br/><br/>
+            Below is the list of students involved in this project:
+            <br/>
+            <b>1. MUHAMMAD IRFAN RAZIQ BIN Y D NAHAR (2022608088)</b>
+            <br/>
+            <b>2. NUR HAIDAH BINTI ABD RAHIM (2022604656)</b>
+            <br/>
+            <b>3. NURHIDAYATI BINTI MUHAMAD SHAHRULMIZAM (2023600914)</b>
+            <br/>
+            <b>4. KHAIRY RAZIN GUOZEN CHAN (2022899972)</b>
+            <br/><br/>
+            <i>YourTicker</i> is a simple app for event managers or lecturers who want to collect people\'s data on whether they attend or not for their program or classes.
+            <br/><br/>
+            User can add, edit, and delete an event. Each event can be tap where it will navigate user to the next page. In this page, people\'s name can be add, edit, and delete. User also can tap the name of a person after adding them, where it will change color to green for present and red for absent. User can also set the desired date for each event or class, thus making it easier for user to remember the exact date of their attendance data.
+            <br/><br/>
+            This app was inspired by the <b>UFuture</b> website which UiTM staff and students tend to use as a platform for work and study. Do not forget to mention <b>i-Student Portal</b> website too inspired us, always showing the latest news of UiTM.
+            <br/><br/>
+            <b>UFuture link:</b> <a href="https://ufuture.uitm.edu.my/home/">https://ufuture.uitm.edu.my/home/</a>
+            <br/>
+            <b>i-Student Portal link:</b> <a href="https://istudent.uitm.edu.my/index_isp.htm">https://istudent.uitm.edu.my/index_isp.htm</a>
+        ]]>
+    </string>
+</resources>

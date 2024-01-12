@@ -157,9 +157,11 @@ public class StudentActivity extends AppCompatActivity {
 
     private void showAddStudentDialog() {
         MyDialog dialog = new MyDialog();
+        dialog.setStudentItems(studentItems);
         dialog.show(getSupportFragmentManager(), MyDialog.STUDENT_ADD_DIALOG);
         dialog.setListener((roll, name) -> addStudent(roll, name));
     }
+
 
     private void addStudent(String roll, String name) {
         // Generate a unique student ID using Firebase push key
@@ -205,6 +207,9 @@ public class StudentActivity extends AppCompatActivity {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Log.d("DeleteStudent", "Data deleted successfully from Firebase");
+
+                                // Update roll numbers after deletion
+                                updateRollNumbers(studentToDelete.getRoll());
                             } else {
                                 Log.e("DeleteStudent", "Failed to delete data from Firebase: " + task.getException());
                             }
@@ -221,6 +226,25 @@ public class StudentActivity extends AppCompatActivity {
             // Handle the case where studentRef is null
             Log.e("DeleteStudent", "studentRef is null");
         }
+    }
+
+    private void updateRollNumbers(String deletedRoll) {
+        // Update the roll numbers of students above the deleted student
+        for (int i = 0; i < studentItems.size(); i++) {
+            String studentId = studentItems.get(i).getStudentId();
+            if (studentId != null) {
+                DatabaseReference studentRefToUpdate = studentRef.child(studentId);
+                int currentRoll = Integer.parseInt(studentItems.get(i).getRoll());
+
+                // If the current roll is greater than the deleted roll, decrement it
+                if (currentRoll > Integer.parseInt(deletedRoll)) {
+                    int newRoll = currentRoll - 1;
+                    studentItems.get(i).setRoll(String.valueOf(newRoll));
+                    studentRefToUpdate.child("roll").setValue(String.valueOf(newRoll));
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void showEditStudentDialog(int position) {

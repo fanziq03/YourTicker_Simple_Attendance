@@ -3,6 +3,7 @@ package com.example.assignment;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import java.util.ArrayList;
 
 public class MyDialog extends DialogFragment {
     public static final String CLASS_ADD_DIALOG = "addClass";
@@ -23,6 +27,12 @@ public class MyDialog extends DialogFragment {
     private String name;
 
     private OnClickListener listener;
+
+    private ArrayList<StudentItem> studentItems;
+
+    public void setStudentItems(ArrayList<StudentItem> studentItems) {
+        this.studentItems = studentItems;
+    }
 
     public MyDialog(String roll, String name) {
         this.roll = roll;
@@ -125,7 +135,6 @@ public class MyDialog extends DialogFragment {
         builder.setView(view);
 
         AlertDialog dialog = builder.create();
-        //dialog.show(); Akan crash kalau guna
 
         TextView title = view.findViewById(R.id.titleDialog);
         title.setText("Add Student");
@@ -135,21 +144,47 @@ public class MyDialog extends DialogFragment {
 
         roll_edt.setHint("Roll");
         name_edt.setHint("Name");
+
+        // Automatically set the roll and disable editing
+        int nextRoll = getNextRoll();
+        roll_edt.setText(String.valueOf(nextRoll));
+        roll_edt.setEnabled(false);
+
         Button cancel = view.findViewById(R.id.cancel_btn);
         Button add = view.findViewById(R.id.add_btn);
 
-        cancel.setOnClickListener(v -> dismiss());
+        cancel.setOnClickListener(v -> dialog.dismiss());
         add.setOnClickListener(v -> {
             String roll = roll_edt.getText().toString();
             String name = name_edt.getText().toString();
-            roll_edt.setText(String.valueOf(Integer.parseInt(roll)+1));
-            name_edt.setText("");
-            listener.onClick(roll, name);
+            if (!roll.isEmpty() && !name.isEmpty()) {
+                listener.onClick(roll, name);
+                dialog.dismiss();
+            }
         });
 
-        return builder.create();
+        return dialog;
     }
 
+    private int getNextRoll() {
+        int maxRoll = 0;
+        for (StudentItem student : studentItems) {
+            try {
+                int roll = Integer.parseInt(student.getRoll());
+                if (roll > maxRoll) {
+                    maxRoll = roll;
+                }
+            } catch (NumberFormatException e) {
+                Log.e("MyDialog", "Invalid roll format: " + student.getRoll());
+            }
+        }
+        return maxRoll + 1;
+    }
+
+    public void showAddStudentDialog(FragmentManager manager, String tag, ArrayList<StudentItem> studentItems) {
+        this.studentItems = studentItems;
+        show(manager, tag);
+    }
 
 
     private Dialog getAddClassDialog() {
@@ -161,7 +196,7 @@ public class MyDialog extends DialogFragment {
         //dialog.show(); Akan crash kalau guna
 
         TextView title = view.findViewById(R.id.titleDialog);
-        title.setText("Add Clas");
+        title.setText("Add Class");
 
         EditText class_edt = view.findViewById(R.id.edt01);
         EditText subject_edt = view.findViewById(R.id.edt02);

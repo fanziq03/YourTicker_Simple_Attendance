@@ -46,7 +46,7 @@ public class InfoActivity extends AppCompatActivity {
         ImageSlider imageSlider = findViewById(R.id.imagesSlider);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
 
-        slideModels.add(new SlideModel(R.drawable.logo_uitm, ScaleTypes.CENTER_INSIDE));
+        slideModels.add(new SlideModel(R.drawable.created_by, ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.image1, ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.image2, ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.image3, ScaleTypes.FIT));

@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.assignment.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<ClassItem> classItems = new ArrayList<>();
     Toolbar toolbar;
     DatabaseReference classRef;
+    private TextView welcomeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 classAdapter.notifyDataSetChanged();
+
+                // Update visibility class
+                updateWelcomeTextVisibility();
             }
 
             @Override
@@ -94,6 +100,18 @@ public class MainActivity extends AppCompatActivity {
         classAdapter.setOnItemClickListener(position -> gotoItemActivity(position));
 
         setToolbar();
+
+        welcomeText = findViewById(R.id.welcomeText);
+        classAdapter.notifyDataSetChanged();
+        updateWelcomeTextVisibility();
+    }
+
+    private void updateWelcomeTextVisibility() {
+        if (classItems.isEmpty()) {
+            welcomeText.setVisibility(View.VISIBLE);
+        } else {
+            welcomeText.setVisibility(View.GONE);
+        }
     }
 
     private void setToolbar() {
@@ -121,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
         MyDialog dialog = new MyDialog();
         dialog.show(getSupportFragmentManager(), MyDialog.CLASS_ADD_DIALOG);
         dialog.setListener((className, subjectName) -> addClass(className, subjectName));
-
     }
 
     private void showUpdateDialog(int position) {
@@ -131,6 +148,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addClass(String className, String subjectName) {
+        // Check if className or subjectName is empty or null
+        if (TextUtils.isEmpty(className) || TextUtils.isEmpty(subjectName)) {
+            showMessage("Class name and subject cannot be empty!");
+            return;
+        }
+
         // Generate a unique classId using Firebase push key
         String classId = classRef.push().getKey();
 
@@ -143,13 +166,32 @@ public class MainActivity extends AppCompatActivity {
 
         classItems.add(newClass);
         classAdapter.notifyDataSetChanged();
+
+        // Update visibility class
+        updateWelcomeTextVisibility();
+        showMessage("Class added successfully!");
+
+        // Dismiss the dialog
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        MyDialog myDialog = (MyDialog) fragmentManager.findFragmentByTag(MyDialog.CLASS_ADD_DIALOG);
+        if (myDialog != null) {
+            myDialog.dismiss();
+        }
+    }
+
+
+    private void showMessage(String message) {
+        // Show a Toast message
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private String getCurrentDate() {
         // Implement this method to get the current date in the desired format
         // For example, you can use SimpleDateFormat
         // return formattedDate;
-        return "2023-01-01"; // Placeholder, replace with the actual implementation
+        String formattedDate = "YYYY-MM-DD"; // Placeholder, replace with the actual implementation
+        showMessage("Date retrieved successfully!");
+        return formattedDate;
     }
 
     @Override
@@ -228,6 +270,9 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                         classAdapter.notifyDataSetChanged();
+
+                                        //Update visibility class
+                                        updateWelcomeTextVisibility();
                                     }
 
                                     @Override

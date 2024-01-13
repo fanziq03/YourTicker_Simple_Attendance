@@ -70,7 +70,6 @@ public class MyDialog extends DialogFragment {
         builder.setView(view);
 
         AlertDialog dialog = builder.create();
-        //dialog.show(); Akan crash kalau guna
 
         TextView title = view.findViewById(R.id.titleDialog);
         title.setText("Update Class");
@@ -80,6 +79,11 @@ public class MyDialog extends DialogFragment {
 
         class_edt.setHint("Class");
         subject_edt.setHint("Subject");
+
+        // Set pre-filled data for updating
+        class_edt.setText(roll);
+        subject_edt.setText(name);
+
         Button cancel = view.findViewById(R.id.cancel_btn);
         Button add = view.findViewById(R.id.add_btn);
         add.setText("Update");
@@ -92,7 +96,12 @@ public class MyDialog extends DialogFragment {
             dialog.dismiss();
         });
 
-        return builder.create();
+        return dialog;
+    }
+
+    public void setClassData(String className, String subjectName) {
+        this.roll = className; // Reuse the 'roll' field for className
+        this.name = subjectName; // Reuse the 'name' field for subjectName
     }
 
     private Dialog getUpdateStudentDialog() {

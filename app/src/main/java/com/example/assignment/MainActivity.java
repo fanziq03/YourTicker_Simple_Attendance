@@ -142,10 +142,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showUpdateDialog(int position) {
-        MyDialog dialog = new MyDialog(classItems.get(position).getClassName(), classItems.get(position).getSubjectName());
+        MyDialog dialog = new MyDialog();
+        if (position >= 0 && position < classItems.size()) {
+            ClassItem classItem = classItems.get(position);
+            dialog.setClassData(classItem.getClassName(), classItem.getSubjectName());
+        }
         dialog.show(getSupportFragmentManager(), MyDialog.CLASS_UPDATE_DIALOG);
-        dialog.setListener((className, subjectName) -> updateClass(position, className, subjectName));
+        dialog.setListener((text1, text2) -> updateClass(position, text1, text2));
     }
+
 
     private void addClass(String className, String subjectName) {
         // Check if className or subjectName is empty or null

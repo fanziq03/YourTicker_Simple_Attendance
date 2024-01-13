@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Update visibility class
         updateWelcomeTextVisibility();
-        showMessage("Class added successfully!");
+        showMessage("Class added!");
 
         // Dismiss the dialog
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
         // For example, you can use SimpleDateFormat
         // return formattedDate;
         String formattedDate = "YYYY-MM-DD"; // Placeholder, replace with the actual implementation
-        showMessage("Date retrieved successfully!");
         return formattedDate;
     }
 
@@ -239,6 +238,15 @@ public class MainActivity extends AppCompatActivity {
             // Handle the case where classRef is null
             Log.e("UpdateClass", "classRef is null");
         }
+
+        // Dismiss the dialog
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        MyDialog myDialog = (MyDialog) fragmentManager.findFragmentByTag(MyDialog.CLASS_UPDATE_DIALOG);
+        if (myDialog != null) {
+            myDialog.dismiss();
+        }
+
+        showMessage("Class updated!");
     }
     private void deleteClass(int position) {
         // Check if the list is empty before attempting to remove an element
@@ -292,5 +300,7 @@ public class MainActivity extends AppCompatActivity {
             // Handle the case where the list is empty or the position is out of bounds
             Log.e("DeleteClass", "List is empty or position is out of bounds");
         }
+
+        showMessage("Class deleted!");
     }
 }

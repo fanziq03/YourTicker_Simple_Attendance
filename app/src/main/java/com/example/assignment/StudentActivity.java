@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -153,6 +154,8 @@ public class StudentActivity extends AppCompatActivity {
 
         // Update classDate in Firebase
         classRef.child("classDate").setValue(formattedDate);
+
+        showMessage("Calendar updated!");
     }
 
     private void showAddStudentDialog() {
@@ -162,6 +165,10 @@ public class StudentActivity extends AppCompatActivity {
         dialog.setListener((roll, name) -> addStudent(roll, name));
     }
 
+    private void showMessage(String message) {
+        // Show a Toast message
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
 
     private void addStudent(String roll, String name) {
         // Generate a unique student ID using Firebase push key
@@ -175,6 +182,8 @@ public class StudentActivity extends AppCompatActivity {
 
         studentItems.add(newStudent);
         adapter.notifyDataSetChanged();
+
+        showMessage("Student added!");
     }
 
     @Override
@@ -226,6 +235,8 @@ public class StudentActivity extends AppCompatActivity {
             // Handle the case where studentRef is null
             Log.e("DeleteStudent", "studentRef is null");
         }
+
+        showMessage("Student deleted!");
     }
 
     private void updateRollNumbers(String deletedRoll) {
@@ -285,5 +296,7 @@ public class StudentActivity extends AppCompatActivity {
             // Handle the case where studentRef is null
             Log.e("UpdateStudent", "studentRef is null");
         }
+
+        showMessage("Student updated!");
     }
 }
